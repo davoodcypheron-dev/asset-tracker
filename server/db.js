@@ -1,18 +1,19 @@
-require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
+const { loadConfig } = require('./utils/configManager');
+const config = loadConfig();
 const sql = require('mssql');
 
-const config = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER,
-    database: process.env.DB_DATABASE,
+const dbconfig = {
+    user: config.db.user,
+    password: config.db.password,
+    server: config.db.server,
+    database: config.db.database,
     options: {
         encrypt: true, // for azure
         trustServerCertificate: true // change to false for production
     }
 };
 
-const poolPromise = new sql.ConnectionPool(config)
+const poolPromise = new sql.ConnectionPool(dbconfig)
     .connect()
     .then(async (pool) => {
         console.log('Connected to MSSQL');
@@ -27,7 +28,7 @@ const poolPromise = new sql.ConnectionPool(config)
 async function initializeDatabase(pool) {
     try {
         console.log('Checking/Initializing Database Tables...');
-        
+
         // Create Assets Table
         await pool.request().query(`
             IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Assets')
@@ -60,7 +61,7 @@ async function initializeDatabase(pool) {
                 );
             END
         `);
-        
+
         console.log('Database Tables Ready.');
     } catch (err) {
         console.error('Initialisation Error:', err);

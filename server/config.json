@@ -1,0 +1,13 @@
+{
+    "port": 5000,
+    "db": {
+        "user": "sa",
+        "password": "Admin123#",
+        "server": "LAPTOP-FB96CS80",
+        "database": "",
+        "options": {
+            "encrypt": true,
+            "trustServerCertificate": true
+        }
+    }
+}

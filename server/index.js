@@ -1,3 +1,6 @@
+const { syncConfig, loadConfig } = require('./utils/configManager');
+syncConfig();
+
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
@@ -6,8 +9,10 @@ const fs = require('fs');
 const { poolPromise, sql } = require('./db');
 const ExcelJS = require('exceljs');
 
+const config = loadConfig();
+
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || config.port || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -138,7 +143,7 @@ app.put('/api/assets/:id', upload.array('images', 5), async (req, res) => {
         const pool = await poolPromise;
         const transaction = new sql.Transaction(pool);
         await transaction.begin();
-        
+
         try {
             await transaction.request()
                 .input('id', sql.Int, assetId)
@@ -162,7 +167,7 @@ app.put('/api/assets/:id', upload.array('images', 5), async (req, res) => {
                         AccessType = @accessType
                     WHERE AssetID = @id
                 `);
-            
+
             if (req.files && req.files.length > 0) {
                 for (let file of req.files) {
                     await transaction.request()
@@ -171,7 +176,7 @@ app.put('/api/assets/:id', upload.array('images', 5), async (req, res) => {
                         .query('INSERT INTO AssetImages (AssetID, ImagePath) VALUES (@AssetID, @ImagePath)');
                 }
             }
-            
+
             await transaction.commit();
             res.json({ message: 'Asset updated successfully' });
         } catch (err) {
@@ -266,5 +271,5 @@ app.get('/api/export', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running on http://0.0.0.0:${port}`);
+    console.log(`Server running on http://127.0.0.1:${port}`);
 });

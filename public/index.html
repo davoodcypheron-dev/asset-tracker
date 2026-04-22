@@ -60,460 +60,489 @@
     </style>
 </head>
 
-    <!-- Login Screen -->
-    <div id="loginScreen" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4">
-        <div class="w-full max-w-md bg-white rounded-[2rem] p-8 shadow-2xl animate-in fade-in zoom-in duration-300">
-            <div class="text-center mb-8">
-                <div class="inline-flex p-4 bg-indigo-600 rounded-2xl text-white mb-4">
-                    <i data-lucide="shield-check" class="w-10 h-10"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-slate-800">Secure Access</h2>
-                <p class="text-sm text-slate-500 mt-2 font-medium">Please sign in to manage assets</p>
+<!-- Login Screen -->
+<div id="loginScreen" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white rounded-[2rem] p-8 shadow-2xl animate-in fade-in zoom-in duration-300">
+        <div class="text-center mb-8">
+            <div class="inline-flex p-4 bg-indigo-600 rounded-2xl text-white mb-4">
+                <i data-lucide="shield-check" class="w-10 h-10"></i>
             </div>
-            
-            <form id="loginForm" class="space-y-6">
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Username</label>
-                    <input type="text" id="loginUsername" required 
-                           class="w-full px-5 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all bg-slate-50/50">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Password</label>
-                    <input type="password" id="loginPassword" required 
-                           class="w-full px-5 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all bg-slate-50/50">
-                </div>
-                <button type="submit" id="loginBtn" 
-                        class="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 active:scale-95 transition-all">
-                    Unlock Dashboard
-                </button>
-            </form>
-            <p id="loginError" class="mt-4 text-center text-xs font-bold text-rose-500 hidden uppercase tracking-wider">Invalid credentials</p>
+            <h2 class="text-2xl font-bold text-slate-800">Secure Access</h2>
+            <p class="text-sm text-slate-500 mt-2 font-medium">Please sign in to manage assets</p>
         </div>
-    </div>
 
-    <div id="mainContent" class="hidden">
-        <!-- Navigation Tabs -->
-        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] glass px-4 py-2 rounded-2xl flex gap-1 shadow-2xl border border-white/50">
-            <button onclick="showView('dashboard')" id="nav-dashboard" class="flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-100">
-                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                <span class="text-xs">DASHBOARD</span>
+        <form id="loginForm" class="space-y-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Username</label>
+                <input type="text" id="loginUsername" required
+                    class="w-full px-5 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all bg-slate-50/50">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Password</label>
+                <input type="password" id="loginPassword" required
+                    class="w-full px-5 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all bg-slate-50/50">
+            </div>
+            <button type="submit" id="loginBtn"
+                class="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 active:scale-95 transition-all">
+                Unlock Dashboard
             </button>
-            <button onclick="showView('list')" id="nav-list" class="flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all text-slate-400 hover:text-slate-600">
-                <i data-lucide="list" class="w-4 h-4"></i>
-                <span class="text-xs">ASSETS</span>
-            </button>
-        </div>
-
-        <div class="max-w-6xl mx-auto px-4 py-6 pb-24">
-            <!-- Header -->
-            <header class="flex justify-between items-center mb-8">
-                <div class="flex items-center gap-3">
-                    <div class="p-2 bg-indigo-600 rounded-xl text-white">
-                        <i data-lucide="package" class="w-8 h-8"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-800 tracking-tight text-slate-900">AssetTracker</h1>
-                        <p id="viewTitle" class="text-xs text-slate-500 font-bold tracking-widest uppercase opacity-50">Dashboard</p>
-                    </div>
-                </div>
-                <button onclick="logout()" class="p-2.5 bg-white text-slate-400 border border-slate-200 rounded-xl hover:text-rose-500 hover:bg-rose-50 transition-all shadow-sm">
-                    <i data-lucide="log-out" class="w-5 h-5"></i>
-                </button>
-            </header>
-
-            <!-- Dashboard View -->
-            <div id="dashboardView">
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <div onclick="showView('list', 'ALL')" class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
-                        <div class="mx-auto w-12 h-12 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                            <i data-lucide="layers" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Assets</p>
-                        <p class="text-4xl font-black text-slate-800" id="stat-total">0</p>
-                    </div>
-                    <div onclick="showView('list', 'WORKING')" class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
-                        <div class="mx-auto w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                            <i data-lucide="check-circle" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Working</p>
-                        <p class="text-4xl font-black text-slate-800" id="stat-working">0</p>
-                    </div>
-                    <div onclick="showView('list', 'ON SERVICE')" class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
-                        <div class="mx-auto w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors">
-                            <i data-lucide="hammer" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Service</p>
-                        <p class="text-4xl font-black text-slate-800" id="stat-service">0</p>
-                    </div>
-                    <div onclick="showView('list', 'RESERVE')" class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
-                        <div class="mx-auto w-12 h-12 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
-                            <i data-lucide="archive" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Reserve</p>
-                        <p class="text-4xl font-black text-slate-800" id="stat-reserve">0</p>
-                    </div>
-                    <div onclick="showView('list', 'RETIRED')" class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
-                        <div class="mx-auto w-12 h-12 bg-slate-100 text-slate-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-slate-500 group-hover:text-white transition-colors">
-                            <i data-lucide="clock" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retired</p>
-                        <p class="text-4xl font-black text-slate-800" id="stat-retired">0</p>
-                    </div>
-                    <div onclick="showView('list', 'DEAD')" class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
-                        <div class="mx-auto w-12 h-12 bg-rose-50 text-rose-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-rose-500 group-hover:text-white transition-colors">
-                            <i data-lucide="x-circle" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Dead</p>
-                        <p class="text-4xl font-black text-slate-800" id="stat-dead">0</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Asset List View -->
-            <div id="assetListView" class="hidden">
-                <div class="flex flex-col gap-6">
-                    <!-- List Actions (Desktop/Mobile responsive) -->
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-[2rem] border border-slate-100 shadow-sm">
-                        <div class="relative w-full sm:flex-1">
-                            <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                            <input type="text" id="searchInput" oninput="renderAssets()" placeholder="Search Inventory..."
-                                class="w-full pl-11 pr-4 py-2.5 rounded-xl border-none bg-slate-50 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all">
-                        </div>
-                        <div class="flex gap-2 w-full sm:w-auto">
-                            <button onclick="exportExcel()" class="flex-1 sm:flex-none px-5 py-2.5 bg-slate-50 text-slate-700 rounded-xl hover:bg-slate-100 transition-colors flex items-center justify-center gap-2 font-bold text-[10px] tracking-widest uppercase">
-                                <i data-lucide="download" class="w-4 h-4 text-indigo-500"></i>
-                                Export
-                            </button>
-                            <button onclick="openModal()" class="flex-[1.5] sm:flex-none px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 text-[10px] tracking-widest uppercase">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                                Add Asset
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Status Filter Chips -->
-                    <div class="flex gap-2 pb-2 overflow-x-auto whitespace-nowrap scrollbar-hide" id="statusFilters">
-                        <button onclick="filterByStatus('ALL')" class="status-chip px-5 py-2 rounded-xl font-bold bg-indigo-600 text-white text-[10px] tracking-widest uppercase shadow-md shadow-indigo-100">ALL</button>
-                        <button onclick="filterByStatus('WORKING')" class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">WORKING</button>
-                        <button onclick="filterByStatus('ON SERVICE')" class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">SERVICE</button>
-                        <button onclick="filterByStatus('RESERVE')" class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">RESERVE</button>
-                        <button onclick="filterByStatus('RETIRED')" class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">RETIRED</button>
-                        <button onclick="filterByStatus('DEAD')" class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">DEAD</button>
-                    </div>
-
-                    <!-- Asset Grid -->
-                    <div id="assetGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
-                        <!-- Assets Load Here -->
-                    </div>
-                </div>
-            </div>
-        </div>
+        </form>
+        <p id="loginError" class="mt-4 text-center text-xs font-bold text-rose-500 hidden uppercase tracking-wider">
+            Invalid credentials</p>
     </div>
+</div>
 
-    <!-- Modal Backdrop -->
-    <div id="modalBackdrop"
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 fixed flex items-center justify-center p-4 hidden">
-        <!-- Modal Content -->
-        <div
-            class="bg-white w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
-            <div class="px-8 py-6 bg-slate-50 border-b flex justify-between items-center">
-                <h2 class="text-xl font-bold text-slate-800" id="modalTitle">Add New Asset</h2>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-            </div>
-
-            <form id="assetForm" class="p-8 max-h-[80vh] overflow-y-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Asset Name *</label>
-                        <input type="text" name="assetName" required placeholder="e.g. Dell Latitude 5420"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Asset Type</label>
-                        <select name="assetType"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
-                            <option value="CPU">CPU</option>
-                            <option value="MONITOR">Monitor</option>
-                            <option value="MINI PC">Mini PC</option>
-                            <option value="LAPTOP">Laptop</option>
-                            <option value="PRINTER">Printer</option>
-                            <option value="THERMAL PRINTER">Thermal Printer</option>
-                            <option value="SCANNER">Scanner</option>
-                            <option value="HANDHELD MOBILE POS">Handheld Mobile Pos</option>
-                            <option value="TV">TV</option>
-                            <option value="KEYBOARD">Keyboard</option>
-                            <option value="MOUSE">Mouse</option>
-                            <option value="CCTV">CCTV</option>
-                            <option value="TABLET">Tablet</option>
-                            <option value="TABLE MIKE">Table Mike</option>
-                            <option value="OTHER">Other</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Status</label>
-                        <select id="statusSelect" name="status"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
-                            <option value="WORKING">Working</option>
-                            <option value="DEAD">Dead</option>
-                            <option value="ON SERVICE">On Service</option>
-                            <option value="RESERVE">Reserve</option>
-                            <option value="RETIRED">Retired</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Brand</label>
-                        <input type="text" name="brand" placeholder="e.g. Dell"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Model</label>
-                        <input type="text" name="model" placeholder="e.g. Latitude"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Access Type</label>
-                        <div class="flex gap-4">
-                            <label
-                                class="flex items-center gap-2 cursor-pointer bg-white px-4 py-2 rounded-lg border border-slate-200">
-                                <input type="radio" name="accessType" value="ON PREMISE" checked
-                                    class="text-indigo-600 focus:ring-indigo-500">
-                                <span class="text-sm font-medium text-slate-600">On Premise</span>
-                            </label>
-                            <label
-                                class="flex items-center gap-2 cursor-pointer bg-white px-4 py-2 rounded-lg border border-slate-200">
-                                <input type="radio" name="accessType" value="TAKE TO HOME"
-                                    class="text-indigo-600 focus:ring-indigo-500">
-                                <span class="text-sm font-medium text-slate-600">Take to Home</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Description</label>
-                        <textarea name="description" rows="2"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50"></textarea>
-                    </div>
-
-                    <div class="md:col-span-2 hidden" id="serviceSection">
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Service Details</label>
-                        <textarea name="serviceDetails" rows="2"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50"></textarea>
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Asset Images</label>
-                        <div onclick="document.getElementById('imageInput').click()"
-                            class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center cursor-pointer hover:bg-slate-50/50 hover:border-indigo-400 transition-all group">
-                            <div
-                                class="mx-auto w-12 h-12 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-500 mb-2 group-hover:scale-110 transition-transform">
-                                <i data-lucide="camera" class="w-6 h-6"></i>
-                            </div>
-                            <p class="text-sm font-semibold text-slate-700">Click to upload or take photo</p>
-                            <p class="text-xs text-slate-400 mt-1">Maximum 5 images allowed</p>
-                        </div>
-                        <input type="file" id="imageInput" multiple capture="environment" accept="image/*"
-                            class="hidden">
-                        <div id="imagePreview" class="grid grid-cols-5 gap-2 mt-4"></div>
-                    </div>
-                </div>
-
-                <div class="mt-10 flex gap-3">
-                    <button type="button" onclick="closeModal()"
-                        class="flex-1 px-6 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 transition-colors">Cancel</button>
-                    <button type="submit" id="submitBtn"
-                        class="flex-[2] px-6 py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-xl shadow-indigo-100 disabled:opacity-50 transition-all">Save
-                        Asset</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    </div> <!-- Close MainContent -->
-
-    <!-- Image Viewer Modal -->
-    <div id="imageViewer" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[110] flex items-center justify-center p-4 hidden" onclick="closeImageViewer()">
-        <button class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors">
-            <i data-lucide="x" class="w-10 h-10"></i>
+<div id="mainContent" class="hidden">
+    <!-- Navigation Tabs -->
+    <div
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] glass px-4 py-2 rounded-2xl flex gap-1 shadow-2xl border border-white/50">
+        <button onclick="showView('dashboard')" id="nav-dashboard"
+            class="flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-100">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span class="text-xs">DASHBOARD</span>
         </button>
-        <img id="viewerImage" src="" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200">
+        <button onclick="showView('list')" id="nav-list"
+            class="flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all text-slate-400 hover:text-slate-600">
+            <i data-lucide="list" class="w-4 h-4"></i>
+            <span class="text-xs">ASSETS</span>
+        </button>
     </div>
 
-    <!-- Vanilla JS Logic -->
-    <script>
-        let allAssets = [];
-        let currentStatusFilter = 'ALL';
-        const API_URL = '/api';
+    <div class="max-w-6xl mx-auto px-4 py-6 pb-24">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-600 rounded-xl text-white">
+                    <i data-lucide="package" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-800 tracking-tight text-slate-900">AssetTracker</h1>
+                    <p id="viewTitle" class="text-xs text-slate-500 font-bold tracking-widest uppercase opacity-50">
+                        Dashboard</p>
+                </div>
+            </div>
+            <button onclick="logout()"
+                class="p-2.5 bg-white text-slate-400 border border-slate-200 rounded-xl hover:text-rose-500 hover:bg-rose-50 transition-all shadow-sm">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+            </button>
+        </header>
 
-        function showView(view, status = null) {
-            const dashboard = document.getElementById('dashboardView');
-            const list = document.getElementById('assetListView');
-            const title = document.getElementById('viewTitle');
-            const navDash = document.getElementById('nav-dashboard');
-            const navList = document.getElementById('nav-list');
+        <!-- Dashboard View -->
+        <div id="dashboardView">
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div onclick="showView('list', 'ALL')"
+                    class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                    <div
+                        class="mx-auto w-12 h-12 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Assets</p>
+                    <p class="text-4xl font-black text-slate-800" id="stat-total">0</p>
+                </div>
+                <div onclick="showView('list', 'WORKING')"
+                    class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                    <div
+                        class="mx-auto w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                        <i data-lucide="check-circle" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Working</p>
+                    <p class="text-4xl font-black text-slate-800" id="stat-working">0</p>
+                </div>
+                <div onclick="showView('list', 'ON SERVICE')"
+                    class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                    <div
+                        class="mx-auto w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i data-lucide="hammer" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Service</p>
+                    <p class="text-4xl font-black text-slate-800" id="stat-service">0</p>
+                </div>
+                <div onclick="showView('list', 'RESERVE')"
+                    class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                    <div
+                        class="mx-auto w-12 h-12 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                        <i data-lucide="archive" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Reserve</p>
+                    <p class="text-4xl font-black text-slate-800" id="stat-reserve">0</p>
+                </div>
+                <div onclick="showView('list', 'RETIRED')"
+                    class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                    <div
+                        class="mx-auto w-12 h-12 bg-slate-100 text-slate-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-slate-500 group-hover:text-white transition-colors">
+                        <i data-lucide="clock" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retired</p>
+                    <p class="text-4xl font-black text-slate-800" id="stat-retired">0</p>
+                </div>
+                <div onclick="showView('list', 'DEAD')"
+                    class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group text-center">
+                    <div
+                        class="mx-auto w-12 h-12 bg-rose-50 text-rose-500 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-rose-500 group-hover:text-white transition-colors">
+                        <i data-lucide="x-circle" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Dead</p>
+                    <p class="text-4xl font-black text-slate-800" id="stat-dead">0</p>
+                </div>
+            </div>
+        </div>
 
-            if (view === 'dashboard') {
-                dashboard.classList.remove('hidden');
-                list.classList.add('hidden');
-                title.innerText = 'DASHBOARD';
-                
-                navDash.className = "flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-100";
-                navList.className = "flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all text-slate-400 hover:text-slate-600";
+        <!-- Asset List View -->
+        <div id="assetListView" class="hidden">
+            <div class="flex flex-col gap-6">
+                <!-- List Actions (Desktop/Mobile responsive) -->
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-[2rem] border border-slate-100 shadow-sm">
+                    <div class="relative w-full sm:flex-1">
+                        <i data-lucide="search"
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" id="searchInput" oninput="renderAssets()" placeholder="Search Inventory..."
+                            class="w-full pl-11 pr-4 py-2.5 rounded-xl border-none bg-slate-50 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all">
+                    </div>
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button onclick="exportExcel()"
+                            class="flex-1 sm:flex-none px-5 py-2.5 bg-slate-50 text-slate-700 rounded-xl hover:bg-slate-100 transition-colors flex items-center justify-center gap-2 font-bold text-[10px] tracking-widest uppercase">
+                            <i data-lucide="download" class="w-4 h-4 text-indigo-500"></i>
+                            Export
+                        </button>
+                        <button onclick="openModal()"
+                            class="flex-[1.5] sm:flex-none px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 text-[10px] tracking-widest uppercase">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            Add Asset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Status Filter Chips -->
+                <div class="flex gap-2 pb-2 overflow-x-auto whitespace-nowrap scrollbar-hide" id="statusFilters">
+                    <button onclick="filterByStatus('ALL')"
+                        class="status-chip px-5 py-2 rounded-xl font-bold bg-indigo-600 text-white text-[10px] tracking-widest uppercase shadow-md shadow-indigo-100">ALL</button>
+                    <button onclick="filterByStatus('WORKING')"
+                        class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">WORKING</button>
+                    <button onclick="filterByStatus('ON SERVICE')"
+                        class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">SERVICE</button>
+                    <button onclick="filterByStatus('RESERVE')"
+                        class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">RESERVE</button>
+                    <button onclick="filterByStatus('RETIRED')"
+                        class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">RETIRED</button>
+                    <button onclick="filterByStatus('DEAD')"
+                        class="status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase">DEAD</button>
+                </div>
+
+                <!-- Asset Grid -->
+                <div id="assetGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
+                    <!-- Assets Load Here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Backdrop -->
+<div id="modalBackdrop"
+    class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 fixed flex items-center justify-center p-4 hidden">
+    <!-- Modal Content -->
+    <div class="bg-white w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
+        <div class="px-8 py-6 bg-slate-50 border-b flex justify-between items-center">
+            <h2 class="text-xl font-bold text-slate-800" id="modalTitle">Add New Asset</h2>
+            <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <form id="assetForm" class="p-8 max-h-[80vh] overflow-y-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Asset Name *</label>
+                    <input type="text" name="assetName" required placeholder="e.g. Dell Latitude 5420"
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Asset Type</label>
+                    <select name="assetType"
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
+                        <option value="CPU">CPU</option>
+                        <option value="MONITOR">Monitor</option>
+                        <option value="MINI PC">Mini PC</option>
+                        <option value="LAPTOP">Laptop</option>
+                        <option value="PRINTER">Printer</option>
+                        <option value="THERMAL PRINTER">Thermal Printer</option>
+                        <option value="SCANNER">Scanner</option>
+                        <option value="HANDHELD MOBILE POS">Handheld Mobile Pos</option>
+                        <option value="TV">TV</option>
+                        <option value="KEYBOARD">Keyboard</option>
+                        <option value="MOUSE">Mouse</option>
+                        <option value="CCTV">CCTV</option>
+                        <option value="TABLET">Tablet</option>
+                        <option value="TABLE MIKE">Table Mike</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Status</label>
+                    <select id="statusSelect" name="status"
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
+                        <option value="WORKING">Working</option>
+                        <option value="DEAD">Dead</option>
+                        <option value="ON SERVICE">On Service</option>
+                        <option value="RESERVE">Reserve</option>
+                        <option value="RETIRED">Retired</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Brand</label>
+                    <input type="text" name="brand" placeholder="e.g. Dell"
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Model</label>
+                    <input type="text" name="model" placeholder="e.g. Latitude"
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Access Type</label>
+                    <div class="flex gap-4">
+                        <label
+                            class="flex items-center gap-2 cursor-pointer bg-white px-4 py-2 rounded-lg border border-slate-200">
+                            <input type="radio" name="accessType" value="ON PREMISE" checked
+                                class="text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium text-slate-600">On Premise</span>
+                        </label>
+                        <label
+                            class="flex items-center gap-2 cursor-pointer bg-white px-4 py-2 rounded-lg border border-slate-200">
+                            <input type="radio" name="accessType" value="TAKE TO HOME"
+                                class="text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium text-slate-600">Take to Home</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Description</label>
+                    <textarea name="description" rows="2"
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50"></textarea>
+                </div>
+
+                <div class="md:col-span-2 hidden" id="serviceSection">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Service Details</label>
+                    <textarea name="serviceDetails" rows="2"
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50"></textarea>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Asset Images</label>
+                    <div onclick="document.getElementById('imageInput').click()"
+                        class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center cursor-pointer hover:bg-slate-50/50 hover:border-indigo-400 transition-all group">
+                        <div
+                            class="mx-auto w-12 h-12 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-500 mb-2 group-hover:scale-110 transition-transform">
+                            <i data-lucide="camera" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-700">Click to upload or take photo</p>
+                        <p class="text-xs text-slate-400 mt-1">Maximum 5 images allowed</p>
+                    </div>
+                    <input type="file" id="imageInput" multiple capture="environment" accept="image/*" class="hidden">
+                    <div id="imagePreview" class="grid grid-cols-5 gap-2 mt-4"></div>
+                </div>
+            </div>
+
+            <div class="mt-10 flex gap-3">
+                <button type="button" onclick="closeModal()"
+                    class="flex-1 px-6 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 transition-colors">Cancel</button>
+                <button type="submit" id="submitBtn"
+                    class="flex-[2] px-6 py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-xl shadow-indigo-100 disabled:opacity-50 transition-all">Save
+                    Asset</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div> <!-- Close MainContent -->
+
+<!-- Image Viewer Modal -->
+<div id="imageViewer"
+    class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[110] flex items-center justify-center p-4 hidden"
+    onclick="closeImageViewer()">
+    <button class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors">
+        <i data-lucide="x" class="w-10 h-10"></i>
+    </button>
+    <img id="viewerImage" src=""
+        class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200">
+</div>
+
+<!-- Vanilla JS Logic -->
+<script>
+    let allAssets = [];
+    let currentStatusFilter = 'ALL';
+    const API_URL = '/api';
+
+    function showView(view, status = null) {
+        const dashboard = document.getElementById('dashboardView');
+        const list = document.getElementById('assetListView');
+        const title = document.getElementById('viewTitle');
+        const navDash = document.getElementById('nav-dashboard');
+        const navList = document.getElementById('nav-list');
+
+        if (view === 'dashboard') {
+            dashboard.classList.remove('hidden');
+            list.classList.add('hidden');
+            title.innerText = 'DASHBOARD';
+
+            navDash.className = "flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-100";
+            navList.className = "flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all text-slate-400 hover:text-slate-600";
+        } else {
+            dashboard.classList.add('hidden');
+            list.classList.remove('hidden');
+            title.innerText = 'ASSET LIST';
+
+            navList.className = "flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-100";
+            navDash.className = "flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all text-slate-400 hover:text-slate-600";
+
+            if (status) filterByStatus(status);
+        }
+        lucide.createIcons();
+    }
+
+    function filterByStatus(status) {
+        currentStatusFilter = status;
+
+        // Update chip styles
+        document.querySelectorAll('.status-chip').forEach(btn => {
+            const isMatch = btn.innerText === status || (status === 'ALL' && btn.innerText === 'ALL') || (status === 'ON SERVICE' && btn.innerText === 'SERVICE');
+            if (isMatch) {
+                btn.className = "status-chip px-5 py-2 rounded-xl font-bold bg-indigo-600 text-white text-[10px] tracking-widest uppercase";
             } else {
-                dashboard.classList.add('hidden');
-                list.classList.remove('hidden');
-                title.innerText = 'ASSET LIST';
-
-                navList.className = "flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-100";
-                navDash.className = "flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all text-slate-400 hover:text-slate-600";
-                
-                if (status) filterByStatus(status);
-            }
-            lucide.createIcons();
-        }
-
-        function filterByStatus(status) {
-            currentStatusFilter = status;
-            
-            // Update chip styles
-            document.querySelectorAll('.status-chip').forEach(btn => {
-                const isMatch = btn.innerText === status || (status === 'ALL' && btn.innerText === 'ALL') || (status === 'ON SERVICE' && btn.innerText === 'SERVICE');
-                if (isMatch) {
-                    btn.className = "status-chip px-5 py-2 rounded-xl font-bold bg-indigo-600 text-white text-[10px] tracking-widest uppercase";
-                } else {
-                    btn.className = "status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase";
-                }
-            });
-            
-            renderAssets();
-        }
-
-        // Authentication Logic
-        function checkAuth() {
-            if (sessionStorage.getItem('isLoggedIn') === 'true') {
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('mainContent').classList.remove('hidden');
-                fetchAssets();
-            } else {
-                document.getElementById('loginScreen').classList.remove('hidden');
-                document.getElementById('mainContent').classList.add('hidden');
-            }
-        }
-
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('loginUsername').value.toLowerCase();
-            const password = document.getElementById('loginPassword').value.toLowerCase();
-            const err = document.getElementById('loginError');
-            const btn = document.getElementById('loginBtn');
-
-            btn.disabled = true;
-            btn.innerText = 'Verifying...';
-            err.classList.add('hidden');
-
-            try {
-                const res = await fetch(`${API_URL}/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
-                if (res.ok) {
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    checkAuth();
-                } else {
-                    err.classList.remove('hidden');
-                }
-            } catch (e) {
-                alert('Connection error');
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Unlock Dashboard';
+                btn.className = "status-chip px-5 py-2 rounded-xl font-bold bg-white text-slate-400 border border-slate-100 text-[10px] tracking-widest uppercase";
             }
         });
 
-        function logout() {
-            sessionStorage.removeItem('isLoggedIn');
-            document.getElementById('loginForm').reset();
-            checkAuth();
-        }
+        renderAssets();
+    }
 
-        // Image Viewer Logic
-        function openImageViewer(url) {
-            const viewer = document.getElementById('imageViewer');
-            const img = document.getElementById('viewerImage');
-            img.src = url;
-            viewer.classList.remove('hidden');
+    // Authentication Logic
+    function checkAuth() {
+        if (sessionStorage.getItem('isLoggedIn') === 'true') {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            fetchAssets();
+        } else {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
         }
+    }
 
-        function closeImageViewer() {
-            document.getElementById('imageViewer').classList.add('hidden');
-        }
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value.toLowerCase();
+        const password = document.getElementById('loginPassword').value.toLowerCase();
+        const err = document.getElementById('loginError');
+        const btn = document.getElementById('loginBtn');
 
-        function toggleDetails(id) {
-            const el = document.getElementById(`details-${id}`);
-            const chevron = document.getElementById(`chevron-${id}`);
-            const isHidden = el.classList.contains('hidden');
-            
-            // Close others if you want only one open (optional, but cleaner)
-            document.querySelectorAll('[id^="details-"]').forEach(d => {
-                if (d.id !== `details-${id}`) d.classList.add('hidden');
+        btn.disabled = true;
+        btn.innerText = 'Verifying...';
+        err.classList.add('hidden');
+
+        try {
+            const res = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
             });
-            document.querySelectorAll('[id^="chevron-"]').forEach(c => {
-                if (c.id !== `chevron-${id}`) c.style.transform = 'rotate(0deg)';
-            });
 
-            if (isHidden) {
-                el.classList.remove('hidden');
-                chevron.style.transform = 'rotate(180deg)';
+            if (res.ok) {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                checkAuth();
             } else {
-                el.classList.add('hidden');
-                chevron.style.transform = 'rotate(0deg)';
+                err.classList.remove('hidden');
             }
+        } catch (e) {
+            alert('Connection error');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'Unlock Dashboard';
         }
+    });
 
-        // Initialize Lucide
-        lucide.createIcons();
+    function logout() {
+        sessionStorage.removeItem('isLoggedIn');
+        document.getElementById('loginForm').reset();
+        checkAuth();
+    }
 
-        // Fetch and Render
-        async function fetchAssets() {
-            try {
-                const res = await fetch(`${API_URL}/assets`);
-                allAssets = await res.json();
-                renderAssets();
-                updateStats();
-            } catch (err) {
-                console.error("Error fetching assets:", err);
-            }
+    // Image Viewer Logic
+    function openImageViewer(url) {
+        const viewer = document.getElementById('imageViewer');
+        const img = document.getElementById('viewerImage');
+        img.src = url;
+        viewer.classList.remove('hidden');
+    }
+
+    function closeImageViewer() {
+        document.getElementById('imageViewer').classList.add('hidden');
+    }
+
+    function toggleDetails(id) {
+        const el = document.getElementById(`details-${id}`);
+        const chevron = document.getElementById(`chevron-${id}`);
+        const isHidden = el.classList.contains('hidden');
+
+        // Close others if you want only one open (optional, but cleaner)
+        document.querySelectorAll('[id^="details-"]').forEach(d => {
+            if (d.id !== `details-${id}`) d.classList.add('hidden');
+        });
+        document.querySelectorAll('[id^="chevron-"]').forEach(c => {
+            if (c.id !== `chevron-${id}`) c.style.transform = 'rotate(0deg)';
+        });
+
+        if (isHidden) {
+            el.classList.remove('hidden');
+            chevron.style.transform = 'rotate(180deg)';
+        } else {
+            el.classList.add('hidden');
+            chevron.style.transform = 'rotate(0deg)';
         }
+    }
 
-        function renderAssets() {
-            const grid = document.getElementById('assetGrid');
-            const search = document.getElementById('searchInput').value.toLowerCase();
+    // Initialize Lucide
+    lucide.createIcons();
 
-            const filtered = allAssets.filter(item => {
-                const matchesSearch = item.AssetName.toLowerCase().includes(search) ||
-                    item.AssetNumber.toLowerCase().includes(search) ||
-                    (item.Brand && item.Brand.toLowerCase().includes(search));
-                const matchesStatus = currentStatusFilter === 'ALL' || item.Status === currentStatusFilter;
-                return matchesSearch && matchesStatus;
-            });
+    // Fetch and Render
+    async function fetchAssets() {
+        try {
+            const res = await fetch(`${API_URL}/assets`);
+            allAssets = await res.json();
+            renderAssets();
+            updateStats();
+        } catch (err) {
+            console.error("Error fetching assets:", err);
+        }
+    }
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-400">
+    function renderAssets() {
+        const grid = document.getElementById('assetGrid');
+        const search = document.getElementById('searchInput').value.toLowerCase();
+
+        const filtered = allAssets.filter(item => {
+            const matchesSearch = item.AssetName.toLowerCase().includes(search) ||
+                item.AssetNumber.toLowerCase().includes(search) ||
+                (item.Brand && item.Brand.toLowerCase().includes(search));
+            const matchesStatus = currentStatusFilter === 'ALL' || item.Status === currentStatusFilter;
+            return matchesSearch && matchesStatus;
+        });
+
+        if (filtered.length === 0) {
+            grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-400">
                     <i data-lucide="inbox" class="w-12 h-12 mx-auto mb-2 opacity-20"></i>
                     <p class="font-medium">No assets found matching your search.</p>
                 </div>`;
-                lucide.createIcons();
-                return;
-            }
+            lucide.createIcons();
+            return;
+        }
 
-            grid.innerHTML = filtered.map(item => `
+        grid.innerHTML = filtered.map(item => `
                 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all group overflow-hidden">
                     <!-- Minimal View (Clickable to Expand) -->
                     <div onclick="toggleDetails(${item.AssetID})" class="p-6 cursor-pointer">
@@ -588,153 +617,153 @@
                     </div>
                 </div>
             `).join('');
-            lucide.createIcons();
-        }
+        lucide.createIcons();
+    }
 
-        // Helpers
-        function getStatusBadge(status) {
-            const map = {
-                'WORKING': { color: 'emerald', text: 'Working' },
-                'DEAD': { color: 'rose', text: 'Dead' },
-                'ON SERVICE': { color: 'amber', text: 'Service' },
-                'RESERVE': { color: 'indigo', text: 'Reserve' },
-                'RETIRED': { color: 'slate', text: 'Retired' }
-            };
-            const config = map[status] || { color: 'slate', text: status };
-            return `<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-${config.color}-50 text-${config.color}-600 border border-${config.color}-100 uppercase tracking-wider">${config.text}</span>`;
-        }
+    // Helpers
+    function getStatusBadge(status) {
+        const map = {
+            'WORKING': { color: 'emerald', text: 'Working' },
+            'DEAD': { color: 'rose', text: 'Dead' },
+            'ON SERVICE': { color: 'amber', text: 'Service' },
+            'RESERVE': { color: 'indigo', text: 'Reserve' },
+            'RETIRED': { color: 'slate', text: 'Retired' }
+        };
+        const config = map[status] || { color: 'slate', text: status };
+        return `<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-${config.color}-50 text-${config.color}-600 border border-${config.color}-100 uppercase tracking-wider">${config.text}</span>`;
+    }
 
-        function getTypeIcon(type) {
-            const map = { 'CPU': 'cpu', 'MONITOR': 'monitor', 'LAPTOP': 'laptop', 'PRINTER': 'printer' };
-            return map[type] || 'box';
-        }
+    function getTypeIcon(type) {
+        const map = { 'CPU': 'cpu', 'MONITOR': 'monitor', 'LAPTOP': 'laptop', 'PRINTER': 'printer' };
+        return map[type] || 'box';
+    }
 
-        function updateStats() {
-            document.getElementById('stat-total').innerText = allAssets.length;
-            document.getElementById('stat-working').innerText = allAssets.filter(a => a.Status === 'WORKING').length;
-            document.getElementById('stat-service').innerText = allAssets.filter(a => a.Status === 'ON SERVICE').length;
-            document.getElementById('stat-reserve').innerText = allAssets.filter(a => a.Status === 'RESERVE').length;
-            document.getElementById('stat-retired').innerText = allAssets.filter(a => a.Status === 'RETIRED').length;
-            document.getElementById('stat-dead').innerText = allAssets.filter(a => a.Status === 'DEAD').length;
-        }
+    function updateStats() {
+        document.getElementById('stat-total').innerText = allAssets.length;
+        document.getElementById('stat-working').innerText = allAssets.filter(a => a.Status === 'WORKING').length;
+        document.getElementById('stat-service').innerText = allAssets.filter(a => a.Status === 'ON SERVICE').length;
+        document.getElementById('stat-reserve').innerText = allAssets.filter(a => a.Status === 'RESERVE').length;
+        document.getElementById('stat-retired').innerText = allAssets.filter(a => a.Status === 'RETIRED').length;
+        document.getElementById('stat-dead').innerText = allAssets.filter(a => a.Status === 'DEAD').length;
+    }
 
-        // Modal Controls
-        let editingAssetId = null;
+    // Modal Controls
+    let editingAssetId = null;
 
-        function openModal(asset = null) {
-            const backdrop = document.getElementById('modalBackdrop');
-            const title = document.getElementById('modalTitle');
-            const submitBtn = document.getElementById('submitBtn');
-            const form = document.getElementById('assetForm');
+    function openModal(asset = null) {
+        const backdrop = document.getElementById('modalBackdrop');
+        const title = document.getElementById('modalTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('assetForm');
 
-            if (asset) {
-                editingAssetId = asset.AssetID;
-                title.innerText = 'Edit Asset: ' + asset.AssetNumber;
-                submitBtn.innerText = 'Update Asset';
+        if (asset) {
+            editingAssetId = asset.AssetID;
+            title.innerText = 'Edit Asset: ' + asset.AssetNumber;
+            submitBtn.innerText = 'Update Asset';
 
-                // Prefill form
-                form.elements['assetName'].value = asset.AssetName;
-                form.elements['assetType'].value = asset.AssetType;
-                form.elements['brand'].value = asset.Brand || '';
-                form.elements['model'].value = asset.Model || '';
-                form.elements['status'].value = asset.Status;
-                form.elements['description'].value = asset.Description || '';
-                form.elements['serviceDetails'].value = asset.ServiceDetails || '';
-                form.elements['accessType'].value = asset.AccessType;
+            // Prefill form
+            form.elements['assetName'].value = asset.AssetName;
+            form.elements['assetType'].value = asset.AssetType;
+            form.elements['brand'].value = asset.Brand || '';
+            form.elements['model'].value = asset.Model || '';
+            form.elements['status'].value = asset.Status;
+            form.elements['description'].value = asset.Description || '';
+            form.elements['serviceDetails'].value = asset.ServiceDetails || '';
+            form.elements['accessType'].value = asset.AccessType;
 
-                document.getElementById('serviceSection').classList.toggle('hidden', asset.Status !== 'on service');
-            } else {
-                editingAssetId = null;
-                title.innerText = 'Add New Asset';
-                submitBtn.innerText = 'Save Asset';
-                form.reset();
-                document.getElementById('serviceSection').classList.add('hidden');
-            }
-
-            backdrop.classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('modalBackdrop').classList.add('hidden');
-            document.getElementById('assetForm').reset();
-            document.getElementById('imagePreview').innerHTML = '';
-            selectedImages = [];
+            document.getElementById('serviceSection').classList.toggle('hidden', asset.Status !== 'on service');
+        } else {
             editingAssetId = null;
+            title.innerText = 'Add New Asset';
+            submitBtn.innerText = 'Save Asset';
+            form.reset();
+            document.getElementById('serviceSection').classList.add('hidden');
         }
 
-        function editAsset(id) {
-            const asset = allAssets.find(a => a.AssetID === id);
-            if (asset) openModal(asset);
-        }
+        backdrop.classList.remove('hidden');
+    }
 
-        // Image Handling
-        let selectedImages = [];
-        document.getElementById('imageInput').addEventListener('change', e => {
-            const files = Array.from(e.target.files);
-            selectedImages = [...selectedImages, ...files].slice(0, 5);
+    function closeModal() {
+        document.getElementById('modalBackdrop').classList.add('hidden');
+        document.getElementById('assetForm').reset();
+        document.getElementById('imagePreview').innerHTML = '';
+        selectedImages = [];
+        editingAssetId = null;
+    }
 
-            const preview = document.getElementById('imagePreview');
-            preview.innerHTML = selectedImages.map(file => `
+    function editAsset(id) {
+        const asset = allAssets.find(a => a.AssetID === id);
+        if (asset) openModal(asset);
+    }
+
+    // Image Handling
+    let selectedImages = [];
+    document.getElementById('imageInput').addEventListener('change', e => {
+        const files = Array.from(e.target.files);
+        selectedImages = [...selectedImages, ...files].slice(0, 5);
+
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = selectedImages.map(file => `
                 <img src="${URL.createObjectURL(file)}" class="w-full aspect-square rounded-lg object-cover">
             `).join('');
-        });
+    });
 
-        // Form Submit
-        document.getElementById('assetForm').addEventListener('submit', async e => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const originalText = btn.innerText;
-            btn.disabled = true;
-            btn.innerText = 'Saving...';
+    // Form Submit
+    document.getElementById('assetForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const originalText = btn.innerText;
+        btn.disabled = true;
+        btn.innerText = 'Saving...';
 
-            const formData = new FormData(e.target);
-            selectedImages.forEach(img => formData.append('images', img));
+        const formData = new FormData(e.target);
+        selectedImages.forEach(img => formData.append('images', img));
 
-            const url = editingAssetId ? `${API_URL}/assets/${editingAssetId}` : `${API_URL}/assets`;
-            const method = editingAssetId ? 'PUT' : 'POST';
+        const url = editingAssetId ? `${API_URL}/assets/${editingAssetId}` : `${API_URL}/assets`;
+        const method = editingAssetId ? 'PUT' : 'POST';
 
-            try {
-                const res = await fetch(url, {
-                    method: method,
-                    body: formData
-                });
-                if (res.ok) {
-                    closeModal();
-                    fetchAssets();
-                } else {
-                    const errData = await res.json();
-                    alert("Error: " + (errData.error || "Failed to save asset."));
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Failed to connect to server.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = originalText;
+        try {
+            const res = await fetch(url, {
+                method: method,
+                body: formData
+            });
+            if (res.ok) {
+                closeModal();
+                fetchAssets();
+            } else {
+                const errData = await res.json();
+                alert("Error: " + (errData.error || "Failed to save asset."));
             }
-        });
-
-        // Service Details Logic
-        document.getElementById('statusSelect').addEventListener('change', e => {
-            document.getElementById('serviceSection').classList.toggle('hidden', e.target.value !== 'ON SERVICE');
-        });
-
-        // Search & Filter Listeners
-        document.getElementById('searchInput').addEventListener('input', renderAssets);
-        document.getElementById('typeFilter').addEventListener('change', renderAssets);
-
-        // Export
-        async function exportExcel() {
-            try {
-                window.location.href = `${API_URL}/export`;
-            } catch (err) {
-                console.error("Export failed:", err);
-            }
+        } catch (err) {
+            console.error(err);
+            alert("Failed to connect to server.");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = originalText;
         }
+    });
 
-        // Initial Load
-        checkAuth();
-    </script>
+    // Service Details Logic
+    document.getElementById('statusSelect').addEventListener('change', e => {
+        document.getElementById('serviceSection').classList.toggle('hidden', e.target.value !== 'ON SERVICE');
+    });
+
+    // Search & Filter Listeners
+    document.getElementById('searchInput').addEventListener('input', renderAssets);
+    //document.getElementById('typeFilter').addEventListener('change', renderAssets);
+
+    // Export
+    async function exportExcel() {
+        try {
+            window.location.href = `${API_URL}/export`;
+        } catch (err) {
+            console.error("Export failed:", err);
+        }
+    }
+
+    // Initial Load
+    checkAuth();
+</script>
 </body>
 
 </html>
