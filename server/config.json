@@ -4,7 +4,7 @@
         "user": "sa",
         "password": "Admin123#",
         "server": "LAPTOP-FB96CS80",
-        "database": "",
+        "database": "AssetTrackerDBDev",
         "options": {
             "encrypt": true,
             "trustServerCertificate": true

@@ -33,7 +33,7 @@ function syncConfig() {
         configData.db.user = envConfig.DB_USER || configData.db.user;
         configData.db.password = envConfig.DB_PASSWORD || configData.db.password;
         configData.db.server = envConfig.DB_SERVER || configData.db.server;
-        configData.db.database = envConfig.DB_NAME || configData.db.database;
+        configData.db.database = envConfig.DB_DATABASE || configData.db.database;
     } else {
         console.warn('Warning: .env file not found or empty. Using default/existing config.json values.');
         if (fs.existsSync(configPath)) return; // Keep existing if .env is missing
